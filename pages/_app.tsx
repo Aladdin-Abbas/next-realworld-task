@@ -14,9 +14,13 @@ if (typeof window !== "undefined") {
 const MyApp = ({ Component, pageProps }) => (
   <>
     <Head>
-      <meta
+      {/* <meta
         name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+      /> */}
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=5"
       />
     </Head>
     <ContextProvider>
