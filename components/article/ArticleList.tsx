@@ -41,12 +41,12 @@ const ArticleList = props => {
       return;
     }
 
-    setArticlesList(prevState =>
-      prevState.filter(el =>
+    setArticlesList(
+      articles.filter(el =>
         el.title.toLowerCase().includes(props.title.trim().toLowerCase())
       )
     );
-  }, [props.title, articles]);
+  }, [props.title]);
 
   switch (true) {
     case !!tag:
