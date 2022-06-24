@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useSWR from "swr";
 
 import ArticlePreview from "./ArticlePreview";
@@ -16,7 +16,8 @@ import useViewport from "../../lib/hooks/useViewport";
 import { SERVER_BASE_URL, DEFAULT_LIMIT } from "../../lib/utils/constant";
 import fetcher from "../../lib/utils/fetcher";
 
-const ArticleList = () => {
+const ArticleList = props => {
+  const [articlesList, setArticlesList] = useState([]);
   const page = usePageState();
   const pageCount = usePageCountState();
   const setPageCount = usePageCountDispatch();
@@ -31,6 +32,21 @@ const ArticleList = () => {
   const isProfilePage = pathname.startsWith(`/profile`);
 
   let fetchURL = `${SERVER_BASE_URL}/articles?offset=${page * DEFAULT_LIMIT}`;
+
+  let articles, articlesCount;
+
+  useEffect(() => {
+    if (!props.title) {
+      articles ? setArticlesList(articles) : null;
+      return;
+    }
+
+    setArticlesList(prevState =>
+      prevState.filter(el =>
+        el.title.toLowerCase().includes(props.title.trim().toLowerCase())
+      )
+    );
+  }, [props.title, articles]);
 
   switch (true) {
     case !!tag:
@@ -71,8 +87,11 @@ const ArticleList = () => {
   }
 
   if (!data) return <LoadingSpinner />;
+  articles = data.articles;
+  articlesCount = data.articlesCount;
+  if (articles && articlesList.length === 0 && !props.title)
+    setArticlesList(articles);
 
-  const { articles, articlesCount } = data;
   setPageCount(articlesCount);
 
   if (articles && articles.length === 0) {
@@ -81,7 +100,7 @@ const ArticleList = () => {
 
   return (
     <>
-      {articles?.map((article) => (
+      {articlesList?.map(article => (
         <ArticlePreview key={article.slug} article={article} />
       ))}
 

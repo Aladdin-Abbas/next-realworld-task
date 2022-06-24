@@ -151,6 +151,7 @@ class MyDocument extends Document {
             rel="stylesheet"
             href="//fonts.googleapis.com/css?family=Titillium+Web:700|Source+Serif+Pro:400,700|Merriweather+Sans:400,700|Source+Sans+Pro:400,300,600,700,300italic,400italic,600italic,700italic&display=swap"
           />
+          <script src="https://kit.fontawesome.com/43dcc20e7a.js"></script>
         </Head>
         <body>
           <Main />
