@@ -57,6 +57,15 @@ const TabList = () => {
         </NavLink>
       </li>
 
+      <li className="nav-item">
+        <NavLink
+          href={`/?author=${currentUser?.username}`}
+          as={`/?author=${currentUser?.username}`}
+        >
+          Your Posts
+        </NavLink>
+      </li>
+
       <Maybe test={!!tag}>
         <li className="nav-item">
           <CustomLink
