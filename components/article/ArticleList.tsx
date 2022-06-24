@@ -27,7 +27,7 @@ const ArticleList = props => {
   const { vw } = useViewport();
   const router = useRouter();
   const { asPath, pathname, query } = router;
-  const { favorite, follow, tag, pid } = query;
+  const { favorite, follow, tag, pid, author } = query;
 
   const isProfilePage = pathname.startsWith(`/profile`);
 
@@ -69,6 +69,11 @@ const ArticleList = props => {
         page * DEFAULT_LIMIT
       }`;
       break;
+    case !isProfilePage && !!author:
+      fetchURL = `${SERVER_BASE_URL}/articles?author=${author}&offset=${
+        page * DEFAULT_LIMIT
+      }`;
+      break;
     default:
       break;
   }
@@ -89,7 +94,12 @@ const ArticleList = props => {
   if (!data) return <LoadingSpinner />;
   articles = data.articles;
   articlesCount = data.articlesCount;
-  if (articles && articlesList.length === 0 && !props.title)
+
+  if (
+    articles &&
+    !props.title &&
+    JSON.stringify(articles) !== JSON.stringify(articlesList)
+  )
     setArticlesList(articles);
 
   setPageCount(articlesCount);
